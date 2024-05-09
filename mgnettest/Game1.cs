@@ -44,68 +44,11 @@ namespace mgnettest
 
             if(isServer)
             {
-                server = new NetManager(listener);
-                server.Start(9050 /* port */);
-
-                listener.ConnectionRequestEvent += request =>
-                {
-                    if(server.ConnectedPeersCount < 10 /* max connections */)
-                        request.AcceptIfKey("SomeConnectionKey");
-                    else
-                        request.Reject();
-                };
-
-                listener.PeerConnectedEvent += peer =>
-                {
-                    this.peer = peer;
-                    Console.WriteLine("We got connection: {0}", peer);  // Show peer ip
-                    writer = new NetDataWriter();         // Create writer class
-                    //writer.Put("Hello client!");                        // Put some string
-                    //peer.Send(writer, DeliveryMethod.ReliableOrdered);  // Send with reliability
-        
-                    
-                    Console.WriteLine("Send message: ");
-                    writer.Put(pos.X + "," + pos.Y);                        // Put some string
-                    peer.Send(writer, DeliveryMethod.ReliableOrdered);  // Send with reliability
-                    writer.Reset();
-                    
-                };
+                Server();
             }
             else
             {
-                client = new NetManager(listener);
-                client.Start();
-                bool connected = false;
-                while (!connected)
-                {
-                    try
-                    {
-                        client.Connect("10.0.0.90" /* host ip or name */, 9050 /* port */, "SomeConnectionKey" /* text key or NetDataWriter */);
-                        connected = true; // If connection succeeds, exit the loop
-                        Console.WriteLine("Connected successfully!");
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Connection failed: {ex.Message}");
-                        Console.WriteLine("Retrying...");
-                        // You can add a delay here if you want to wait between connection attempts
-                        // e.g., System.Threading.Thread.Sleep(1000); // Wait for 1 second
-                    }
-                }
-                listener.NetworkReceiveEvent += (fromPeer, dataReader, deliveryMethod, channel) =>
-                {
-                    //Console.WriteLine("Received: {0}", dataReader.GetString(100 /* max length of string */));
-                    string[] data;
-                    string read = dataReader.GetString(100 /* max length of string */);
-                    Console.WriteLine("Received: {0}", read);
-                    data = read.Split(",");
-                    if (data != null)
-                    {
-                        pos.X = Convert.ToInt32(data[0]);
-                        pos.Y = Convert.ToInt32(data[1]);
-                    }
-                    dataReader.Recycle();
-                };
+                Client();
             }
 
             pos = new Vector2(rect.X, rect.Y);
@@ -137,14 +80,8 @@ namespace mgnettest
                     pos.X += 3;
                 rect.X = (int)pos.X;
                 rect.Y = (int)pos.Y;
-                
-                if(peer != null)
-                {
-                    writer.Reset();
-                    writer.Put(pos.X + "," + pos.Y); // Put some string
-                    peer.Send(writer, DeliveryMethod.ReliableOrdered); // Send with reliability
-                    writer.Reset();
-                }
+
+                SendVector2(pos);
             }
                 
             else
@@ -165,6 +102,84 @@ namespace mgnettest
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        void Server()
+        {
+            server = new NetManager(listener);
+            server.Start(9050 /* port */);
+
+            listener.ConnectionRequestEvent += request =>
+            {
+                if(server.ConnectedPeersCount < 10 /* max connections */)
+                    request.AcceptIfKey("SomeConnectionKey");
+                else
+                    request.Reject();
+            };
+
+            listener.PeerConnectedEvent += peer =>
+            {
+                this.peer = peer;
+                Console.WriteLine("We got connection: {0}", peer);  // Show peer ip
+                writer = new NetDataWriter();         // Create writer class
+                //writer.Put("Hello client!");                        // Put some string
+                //peer.Send(writer, DeliveryMethod.ReliableOrdered);  // Send with reliability
+        
+                    
+                Console.WriteLine("Send message: ");
+                writer.Put(pos.X + "," + pos.Y);                        // Put some string
+                peer.Send(writer, DeliveryMethod.ReliableOrdered);  // Send with reliability
+                writer.Reset();
+                    
+            };
+        }
+
+        void Client()
+        {
+            client = new NetManager(listener);
+            client.Start();
+            bool connected = false;
+            while (!connected)
+            {
+                try
+                {
+                    client.Connect("10.0.0.90" /* host ip or name */, 9050 /* port */, "SomeConnectionKey" /* text key or NetDataWriter */);
+                    connected = true; // If connection succeeds, exit the loop
+                    Console.WriteLine("Connected successfully!");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Connection failed: {ex.Message}");
+                    Console.WriteLine("Retrying...");
+                    // You can add a delay here if you want to wait between connection attempts
+                    // e.g., System.Threading.Thread.Sleep(1000); // Wait for 1 second
+                }
+            }
+            listener.NetworkReceiveEvent += (fromPeer, dataReader, deliveryMethod, channel) =>
+            {
+                //Console.WriteLine("Received: {0}", dataReader.GetString(100 /* max length of string */));
+                string[] data;
+                string read = dataReader.GetString(100 /* max length of string */);
+                Console.WriteLine("Received: {0}", read);
+                data = read.Split(",");
+                if (data != null)
+                {
+                    pos.X = Convert.ToInt32(data[0]);
+                    pos.Y = Convert.ToInt32(data[1]);
+                }
+                dataReader.Recycle();
+            };
+        }
+
+        void SendVector2(Vector2 loc)
+        {
+            if(peer != null)
+            {
+                writer.Reset();
+                writer.Put(loc.X + "," + loc.Y); // Put some string
+                peer.Send(writer, DeliveryMethod.ReliableOrdered); // Send with reliability
+                writer.Reset();
+            }
         }
     }
 }
