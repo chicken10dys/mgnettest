@@ -4,7 +4,7 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>/home/ashton/RiderProjects/mgnettest/mgnettest/Content/blank.png</File>
+    <File>/home/chicken10dys/RiderProjects/mgnettest/mgnettest/Content/blank.png</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />

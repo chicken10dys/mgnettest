@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/ashton/RiderProjects/mgnettest/mgnettest/mgnettest.csproj": {}
+    "/home/chicken10dys/RiderProjects/mgnettest/mgnettest/mgnettest.csproj": {}
   },
   "projects": {
-    "/home/ashton/RiderProjects/mgnettest/mgnettest/mgnettest.csproj": {
+    "/home/chicken10dys/RiderProjects/mgnettest/mgnettest/mgnettest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/ashton/RiderProjects/mgnettest/mgnettest/mgnettest.csproj",
+        "projectUniqueName": "/home/chicken10dys/RiderProjects/mgnettest/mgnettest/mgnettest.csproj",
         "projectName": "mgnettest",
-        "projectPath": "/home/ashton/RiderProjects/mgnettest/mgnettest/mgnettest.csproj",
-        "packagesPath": "/home/ashton/.nuget/packages/",
-        "outputPath": "/home/ashton/RiderProjects/mgnettest/mgnettest/obj/",
+        "projectPath": "/home/chicken10dys/RiderProjects/mgnettest/mgnettest/mgnettest.csproj",
+        "packagesPath": "/home/chicken10dys/.nuget/packages/",
+        "outputPath": "/home/chicken10dys/RiderProjects/mgnettest/mgnettest/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/ashton/.nuget/NuGet/NuGet.Config"
+          "/home/chicken10dys/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -57,14 +57,19 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[6.0.29, 6.0.29]"
+              "version": "[6.0.28, 6.0.28]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.linux-x64",
+              "version": "[6.0.28, 6.0.28]"
             }
           ],
           "frameworkReferences": {
@@ -72,7 +77,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.129/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.103/RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -34,7 +34,7 @@ namespace mgnettest
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            //this.isServer = isServer;
+            this.isServer = isServer;
         }
 
         protected override void Initialize()
