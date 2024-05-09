@@ -30,7 +30,6 @@
 /home/ashton/RiderProjects/mgnettest/mgnettest/bin/Debug/net6.0/mgnettest.deps.json
 /home/ashton/RiderProjects/mgnettest/mgnettest/bin/Debug/net6.0/mgnettest.runtimeconfig.json
 /home/ashton/RiderProjects/mgnettest/mgnettest/bin/Debug/net6.0/mgnettest.dll
-/home/ashton/RiderProjects/mgnettest/mgnettest/bin/Debug/net6.0/ref/mgnettest.dll
 /home/ashton/RiderProjects/mgnettest/mgnettest/bin/Debug/net6.0/mgnettest.pdb
 /home/ashton/RiderProjects/mgnettest/mgnettest/bin/Debug/net6.0/LiteNetLib.dll
 /home/ashton/RiderProjects/mgnettest/mgnettest/bin/Debug/net6.0/MonoGame.Framework.dll
@@ -53,3 +52,5 @@
 /home/ashton/RiderProjects/mgnettest/mgnettest/obj/Debug/net6.0/mgnettest.pdb
 /home/ashton/RiderProjects/mgnettest/mgnettest/obj/Debug/net6.0/mgnettest.genruntimeconfig.cache
 /home/chicken10dys/RiderProjects/mgnettest/mgnettest/obj/Debug/net6.0/mgnettest.sourcelink.json
+/home/ashton/RiderProjects/mgnettest/mgnettest/obj/Debug/net6.0/mgnettest.sourcelink.json
+/home/ashton/RiderProjects/mgnettest/mgnettest/obj/Debug/net6.0/refint/mgnettest.dll

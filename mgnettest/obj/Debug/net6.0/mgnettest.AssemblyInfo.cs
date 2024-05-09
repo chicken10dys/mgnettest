@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("mgnettest")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ddc8b237be122b9ad97c0a8c5d4b303c9fb520ea")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1002c010dba420201d80106442926587c3bd11c3")]
 [assembly: System.Reflection.AssemblyProductAttribute("mgnettest")]
 [assembly: System.Reflection.AssemblyTitleAttribute("mgnettest")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

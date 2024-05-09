@@ -22,8 +22,10 @@ namespace mgnettest
         KeyboardState prevKb;
 
         Texture2D img;
-        Rectangle rect;
-        Vector2 pos;
+        Rectangle[] rect = new Rectangle[2];
+        Vector2[] pos = new Vector2[2];
+
+        string serverIP = "localhost";
 
         NetPeer peer;
 
@@ -44,14 +46,16 @@ namespace mgnettest
 
             if(isServer)
             {
+                Window.Title = "Server";
                 Server();
             }
             else
             {
+                Window.Title = "Client";
                 Client();
             }
 
-            pos = new Vector2(rect.X, rect.Y);
+            
         }
 
         protected override void LoadContent()
@@ -59,7 +63,10 @@ namespace mgnettest
             spriteBatch = new SpriteBatch(GraphicsDevice);
             img = Content.Load<Texture2D>("blank");
 
-            rect = new Rectangle(100, 100, 32, 32);
+            rect[0] = new Rectangle(100, 100, 32, 32);
+            rect[1] = new Rectangle(200, 100, 32, 32);
+            pos[0] = new Vector2(rect[0].X, rect[0].Y);
+            pos[1] = new Vector2(rect[1].X, rect[1].Y);
         }
 
         protected override void Update(GameTime gameTime)
@@ -70,25 +77,31 @@ namespace mgnettest
             if (isServer)
             {
                 server.PollEvents();
-                if (Keyboard.GetState().IsKeyDown(Keys.W))
-                    pos.Y -= 3;
-                if (Keyboard.GetState().IsKeyDown(Keys.S))
-                    pos.Y += 3;
-                if (Keyboard.GetState().IsKeyDown(Keys.A))
-                    pos.X -= 3;
-                if (Keyboard.GetState().IsKeyDown(Keys.D))
-                    pos.X += 3;
-                rect.X = (int)pos.X;
-                rect.Y = (int)pos.Y;
-
-                SendVector2(pos);
             }
                 
             else
+            {
                 client.PollEvents();
+            }
 
-            rect.X = (int)pos.X;
-            rect.Y = (int)pos.Y;
+            
+            if (Keyboard.GetState().IsKeyDown(Keys.W))
+                pos[0].Y -= 3;
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
+                pos[0].Y += 3;
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
+                pos[0].X -= 3;
+            if (Keyboard.GetState().IsKeyDown(Keys.D))
+                pos[0].X += 3;
+            rect[0].X = (int)pos[0].X;
+            rect[0].Y = (int)pos[0].Y;
+
+            SendVector2(pos[0]);
+            
+            rect[0].X = (int)pos[0].X;
+            rect[0].Y = (int)pos[0].Y;
+            rect[1].X = (int)pos[1].X;
+            rect[1].Y = (int)pos[1].Y;
             base.Update(gameTime);
         }
 
@@ -98,7 +111,17 @@ namespace mgnettest
 
             spriteBatch.Begin();
             // Draw your game content here if needed
-            spriteBatch.Draw(img, rect, Color.White);
+            if(isServer)
+            {
+                spriteBatch.Draw(img, rect[0], Color.Red);
+                spriteBatch.Draw(img, rect[1], Color.Green);
+            }
+            else
+            {
+                spriteBatch.Draw(img, rect[1], Color.Red);
+                spriteBatch.Draw(img, rect[0], Color.Green);
+                
+            }
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -124,14 +147,27 @@ namespace mgnettest
                 writer = new NetDataWriter();         // Create writer class
                 //writer.Put("Hello client!");                        // Put some string
                 //peer.Send(writer, DeliveryMethod.ReliableOrdered);  // Send with reliability
-        
-                    
-                Console.WriteLine("Send message: ");
-                writer.Put(pos.X + "," + pos.Y);                        // Put some string
+                
+                writer.Put(pos[0].X + "," + pos[0].Y);                        // Put some string
                 peer.Send(writer, DeliveryMethod.ReliableOrdered);  // Send with reliability
                 writer.Reset();
                     
             };
+            listener.NetworkReceiveEvent += (peer, dataReader, deliveryMethod, channel) =>
+            {
+                //Console.WriteLine("Received: {0}", dataReader.GetString(100 /* max length of string */));
+                string[] data;
+                string read = dataReader.GetString(100 /* max length of string */);
+                Console.WriteLine("Received: {0}", read);
+                data = read.Split(",");
+                if (data != null)
+                {
+                    pos[1].X = Convert.ToInt32(data[0]);
+                    pos[1].Y = Convert.ToInt32(data[1]);
+                }
+                dataReader.Recycle();
+            };
+
         }
 
         void Client()
@@ -143,7 +179,7 @@ namespace mgnettest
             {
                 try
                 {
-                    client.Connect("10.0.0.90" /* host ip or name */, 9050 /* port */, "SomeConnectionKey" /* text key or NetDataWriter */);
+                    client.Connect(serverIP /* host ip or name */, 9050 /* port */, "SomeConnectionKey" /* text key or NetDataWriter */);
                     connected = true; // If connection succeeds, exit the loop
                     Console.WriteLine("Connected successfully!");
                 }
@@ -155,8 +191,22 @@ namespace mgnettest
                     // e.g., System.Threading.Thread.Sleep(1000); // Wait for 1 second
                 }
             }
+            listener.PeerConnectedEvent += peer =>
+            {
+                this.peer = peer;
+                Console.WriteLine("We got connection: {0}", peer);  // Show peer ip
+                writer = new NetDataWriter();         // Create writer class
+                //writer.Put("Hello client!");                        // Put some string
+                //peer.Send(writer, DeliveryMethod.ReliableOrdered);  // Send with reliability
+                
+                writer.Put(pos[0].X + "," + pos[0].Y);                        // Put some string
+                peer.Send(writer, DeliveryMethod.ReliableOrdered);  // Send with reliability
+                writer.Reset();
+                    
+            };
             listener.NetworkReceiveEvent += (fromPeer, dataReader, deliveryMethod, channel) =>
             {
+                peer = fromPeer;
                 //Console.WriteLine("Received: {0}", dataReader.GetString(100 /* max length of string */));
                 string[] data;
                 string read = dataReader.GetString(100 /* max length of string */);
@@ -164,8 +214,9 @@ namespace mgnettest
                 data = read.Split(",");
                 if (data != null)
                 {
-                    pos.X = Convert.ToInt32(data[0]);
-                    pos.Y = Convert.ToInt32(data[1]);
+                    
+                    pos[1].X = Convert.ToInt32(data[0]);
+                    pos[1].Y = Convert.ToInt32(data[1]);
                 }
                 dataReader.Recycle();
             };
@@ -173,12 +224,26 @@ namespace mgnettest
 
         void SendVector2(Vector2 loc)
         {
-            if(peer != null)
+            if (isServer)
             {
-                writer.Reset();
-                writer.Put(loc.X + "," + loc.Y); // Put some string
-                peer.Send(writer, DeliveryMethod.ReliableOrdered); // Send with reliability
-                writer.Reset();
+                if (peer != null)
+                {
+                    writer.Reset();
+                    writer.Put(loc.X + "," + loc.Y); // Put some string
+                    peer.Send(writer, DeliveryMethod.ReliableOrdered); // Send with reliability
+                    Console.WriteLine("Sent: " + loc.X + "," + loc.Y);
+                    writer.Reset();
+                }
+            }
+            else
+            {
+                if (peer != null)
+                {
+                    writer.Reset();
+                    writer.Put(loc.X + "," + loc.Y); // Put some string
+                    client.SendToAll(writer, DeliveryMethod.ReliableOrdered);
+                    Console.WriteLine("Sent: " + loc.X + "," + loc.Y );
+                }
             }
         }
     }
