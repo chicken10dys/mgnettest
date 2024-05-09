@@ -145,19 +145,19 @@
     ]
   },
   "packageFolders": {
-    "/home/chicken10dys/.nuget/packages/": {}
+    "/home/ashton/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/chicken10dys/RiderProjects/mgnettest/mgnettest/mgnettest.csproj",
+      "projectUniqueName": "/home/ashton/RiderProjects/mgnettest/mgnettest/mgnettest.csproj",
       "projectName": "mgnettest",
-      "projectPath": "/home/chicken10dys/RiderProjects/mgnettest/mgnettest/mgnettest.csproj",
-      "packagesPath": "/home/chicken10dys/.nuget/packages/",
-      "outputPath": "/home/chicken10dys/RiderProjects/mgnettest/mgnettest/obj/",
+      "projectPath": "/home/ashton/RiderProjects/mgnettest/mgnettest/mgnettest.csproj",
+      "packagesPath": "/home/ashton/.nuget/packages/",
+      "outputPath": "/home/ashton/RiderProjects/mgnettest/mgnettest/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/chicken10dys/.nuget/NuGet/NuGet.Config"
+        "/home/ashton/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
@@ -200,19 +200,14 @@
           "net47",
           "net471",
           "net472",
-          "net48",
-          "net481"
+          "net48"
         ],
         "assetTargetFallback": true,
         "warn": true,
         "downloadDependencies": [
           {
             "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[6.0.28, 6.0.28]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Host.linux-x64",
-            "version": "[6.0.28, 6.0.28]"
+            "version": "[6.0.29, 6.0.29]"
           }
         ],
         "frameworkReferences": {
@@ -220,7 +215,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.103/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.129/RuntimeIdentifierGraph.json"
       }
     }
   }

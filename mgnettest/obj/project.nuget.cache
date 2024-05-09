@@ -1,14 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "qO3Hp3JzZgFzNUsyAjXbUF5cvhxybrNvvvdBDOktTX1I9hxm80ELczl47y/SmDqL3YF+TxX8mLvmgyJ/qZwLaQ==",
+  "dgSpecHash": "0Q5SyeTNXZUtwnOGPM6f+qzQPnaBKzvtTKnLxbIFzooz4p2i/FO3qqXAqz7QbaOXjLzlMYTpKLuuLOhPibJPlQ==",
   "success": true,
-  "projectFilePath": "/home/chicken10dys/RiderProjects/mgnettest/mgnettest/mgnettest.csproj",
+  "projectFilePath": "/home/ashton/RiderProjects/mgnettest/mgnettest/mgnettest.csproj",
   "expectedPackageFiles": [
-    "/home/chicken10dys/.nuget/packages/litenetlib/1.2.0/litenetlib.1.2.0.nupkg.sha512",
-    "/home/chicken10dys/.nuget/packages/monogame.content.builder.task/3.8.1.303/monogame.content.builder.task.3.8.1.303.nupkg.sha512",
-    "/home/chicken10dys/.nuget/packages/monogame.framework.desktopgl/3.8.1.303/monogame.framework.desktopgl.3.8.1.303.nupkg.sha512",
-    "/home/chicken10dys/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.28/microsoft.aspnetcore.app.ref.6.0.28.nupkg.sha512",
-    "/home/chicken10dys/.nuget/packages/microsoft.netcore.app.host.linux-x64/6.0.28/microsoft.netcore.app.host.linux-x64.6.0.28.nupkg.sha512"
+    "/home/ashton/.nuget/packages/litenetlib/1.2.0/litenetlib.1.2.0.nupkg.sha512",
+    "/home/ashton/.nuget/packages/monogame.content.builder.task/3.8.1.303/monogame.content.builder.task.3.8.1.303.nupkg.sha512",
+    "/home/ashton/.nuget/packages/monogame.framework.desktopgl/3.8.1.303/monogame.framework.desktopgl.3.8.1.303.nupkg.sha512",
+    "/home/ashton/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.29/microsoft.aspnetcore.app.ref.6.0.29.nupkg.sha512"
   ],
   "logs": []
 }

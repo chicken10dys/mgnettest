@@ -25,14 +25,16 @@ namespace mgnettest
         Rectangle rect;
         Vector2 pos;
 
-        bool isServer;
+        NetPeer peer;
+
+        bool isServer = true;
 
         public Game1(bool isServer)
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            this.isServer = isServer;
+            //this.isServer = isServer;
         }
 
         protected override void Initialize()
@@ -55,8 +57,9 @@ namespace mgnettest
 
                 listener.PeerConnectedEvent += peer =>
                 {
+                    this.peer = peer;
                     Console.WriteLine("We got connection: {0}", peer);  // Show peer ip
-                    NetDataWriter writer = new NetDataWriter();         // Create writer class
+                    writer = new NetDataWriter();         // Create writer class
                     //writer.Put("Hello client!");                        // Put some string
                     //peer.Send(writer, DeliveryMethod.ReliableOrdered);  // Send with reliability
         
@@ -125,15 +128,23 @@ namespace mgnettest
             {
                 server.PollEvents();
                 if (Keyboard.GetState().IsKeyDown(Keys.W))
-                    pos.Y += 3;
-                if (Keyboard.GetState().IsKeyDown(Keys.S))
                     pos.Y -= 3;
+                if (Keyboard.GetState().IsKeyDown(Keys.S))
+                    pos.Y += 3;
                 if (Keyboard.GetState().IsKeyDown(Keys.A))
-                    pos.X += 3;
-                if (Keyboard.GetState().IsKeyDown(Keys.D))
                     pos.X -= 3;
+                if (Keyboard.GetState().IsKeyDown(Keys.D))
+                    pos.X += 3;
                 rect.X = (int)pos.X;
                 rect.Y = (int)pos.Y;
+                
+                if(peer != null)
+                {
+                    writer.Reset();
+                    writer.Put(pos.X + "," + pos.Y); // Put some string
+                    peer.Send(writer, DeliveryMethod.ReliableOrdered); // Send with reliability
+                    writer.Reset();
+                }
             }
                 
             else
