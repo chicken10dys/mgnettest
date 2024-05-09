@@ -25,3 +25,4 @@
 /home/chicken10dys/RiderProjects/mgnettest/mgnettest/obj/Debug/net6.0/mgnettest.pdb
 /home/chicken10dys/RiderProjects/mgnettest/mgnettest/obj/Debug/net6.0/mgnettest.genruntimeconfig.cache
 /home/chicken10dys/RiderProjects/mgnettest/mgnettest/obj/Debug/net6.0/ref/mgnettest.dll
+/home/chicken10dys/RiderProjects/mgnettest/mgnettest/obj/Debug/net6.0/mgnettest.sourcelink.json

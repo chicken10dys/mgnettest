@@ -18,6 +18,9 @@ namespace mgnettest
         NetManager client;
         NetDataWriter writer;
 
+        KeyboardState kb;
+        KeyboardState prevKb;
+
         Texture2D img;
         Rectangle rect;
         Vector2 pos;
@@ -59,7 +62,7 @@ namespace mgnettest
         
                     
                     Console.WriteLine("Send message: ");
-                    writer.Put(rect.X + "," + rect.Y + "," + rect.Width + "," + rect.Height);                        // Put some string
+                    writer.Put(pos.X + "," + pos.Y);                        // Put some string
                     peer.Send(writer, DeliveryMethod.ReliableOrdered);  // Send with reliability
                     writer.Reset();
                     
@@ -74,7 +77,7 @@ namespace mgnettest
                 {
                     try
                     {
-                        client.Connect("localhost" /* host ip or name */, 9050 /* port */, "SomeConnectionKey" /* text key or NetDataWriter */);
+                        client.Connect("10.0.0.90" /* host ip or name */, 9050 /* port */, "SomeConnectionKey" /* text key or NetDataWriter */);
                         connected = true; // If connection succeeds, exit the loop
                         Console.WriteLine("Connected successfully!");
                     }
@@ -93,11 +96,16 @@ namespace mgnettest
                     string read = dataReader.GetString(100 /* max length of string */);
                     Console.WriteLine("Received: {0}", read);
                     data = read.Split(",");
-                    if(data != null)
-                        rect = new Rectangle(Convert.ToInt32(data[0]), Convert.ToInt32(data[1]), Convert.ToInt32(data[2]), Convert.ToInt32(data[3]));
+                    if (data != null)
+                    {
+                        pos.X = Convert.ToInt32(data[0]);
+                        pos.Y = Convert.ToInt32(data[1]);
+                    }
                     dataReader.Recycle();
                 };
             }
+
+            pos = new Vector2(rect.X, rect.Y);
         }
 
         protected override void LoadContent()
@@ -105,8 +113,7 @@ namespace mgnettest
             spriteBatch = new SpriteBatch(GraphicsDevice);
             img = Content.Load<Texture2D>("blank");
 
-            if (isServer)
-                rect = new Rectangle(100, 100, 32, 32);
+            rect = new Rectangle(100, 100, 32, 32);
         }
 
         protected override void Update(GameTime gameTime)
@@ -114,8 +121,21 @@ namespace mgnettest
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if(isServer)
+            if (isServer)
+            {
                 server.PollEvents();
+                if (Keyboard.GetState().IsKeyDown(Keys.W))
+                    pos.Y += 3;
+                if (Keyboard.GetState().IsKeyDown(Keys.S))
+                    pos.Y -= 3;
+                if (Keyboard.GetState().IsKeyDown(Keys.A))
+                    pos.X += 3;
+                if (Keyboard.GetState().IsKeyDown(Keys.D))
+                    pos.X -= 3;
+                rect.X = (int)pos.X;
+                rect.Y = (int)pos.Y;
+            }
+                
             else
                 client.PollEvents();
 
