@@ -139,6 +139,8 @@ namespace mgnettest
             else
                 client.PollEvents();
 
+            rect.X = (int)pos.X;
+            rect.Y = (int)pos.Y;
             base.Update(gameTime);
         }
 
