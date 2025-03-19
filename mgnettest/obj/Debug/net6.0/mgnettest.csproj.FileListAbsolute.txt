@@ -46,7 +46,6 @@
 /home/ashton/RiderProjects/mgnettest/mgnettest/obj/Debug/net6.0/mgnettest.AssemblyInfoInputs.cache
 /home/ashton/RiderProjects/mgnettest/mgnettest/obj/Debug/net6.0/mgnettest.AssemblyInfo.cs
 /home/ashton/RiderProjects/mgnettest/mgnettest/obj/Debug/net6.0/mgnettest.csproj.CoreCompileInputs.cache
-/home/ashton/RiderProjects/mgnettest/mgnettest/obj/Debug/net6.0/mgnettest.csproj.CopyComplete
 /home/ashton/RiderProjects/mgnettest/mgnettest/obj/Debug/net6.0/mgnettest.dll
 /home/ashton/RiderProjects/mgnettest/mgnettest/obj/Debug/net6.0/ref/mgnettest.dll
 /home/ashton/RiderProjects/mgnettest/mgnettest/obj/Debug/net6.0/mgnettest.pdb
@@ -54,3 +53,4 @@
 /home/chicken10dys/RiderProjects/mgnettest/mgnettest/obj/Debug/net6.0/mgnettest.sourcelink.json
 /home/ashton/RiderProjects/mgnettest/mgnettest/obj/Debug/net6.0/mgnettest.sourcelink.json
 /home/ashton/RiderProjects/mgnettest/mgnettest/obj/Debug/net6.0/refint/mgnettest.dll
+/home/ashton/RiderProjects/mgnettest/mgnettest/obj/Debug/net6.0/mgnettest.csproj.Up2Date

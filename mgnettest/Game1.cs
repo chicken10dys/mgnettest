@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using LiteNetLib;
 using LiteNetLib.Utils;
@@ -25,7 +28,7 @@ namespace mgnettest
         Rectangle[] rect = new Rectangle[2];
         Vector2[] pos = new Vector2[2];
 
-        string serverIP = "localhost";
+        string serverIP;
 
         NetPeer peer;
 
@@ -43,16 +46,18 @@ namespace mgnettest
         {
             base.Initialize();
             Console.WriteLine(isServer);
+            serverIP = GetLocalIPAddress();
 
             if(isServer)
             {
                 Window.Title = "Server";
                 Server();
+                
             }
             else
             {
                 Window.Title = "Client";
-                Client();
+                ListenForDiscoveryMessages();
             }
 
             
@@ -77,6 +82,7 @@ namespace mgnettest
             if (isServer)
             {
                 server.PollEvents();
+                BroadcastDiscoveryMessage();
             }
                 
             else
@@ -246,5 +252,52 @@ namespace mgnettest
                 }
             }
         }
+        
+        // Server side
+        void BroadcastDiscoveryMessage()
+        {
+            using (var client = new UdpClient())
+            {
+                byte[] data = Encoding.UTF8.GetBytes("DISCOVERY|" + serverIP); // Prefix the message to distinguish it from other messages
+                client.EnableBroadcast = true;
+                client.Send(data, data.Length, new IPEndPoint(IPAddress.Broadcast, 9051)); // Broadcasting on port 9051
+            }
+        }
+        
+        // Client side
+        void ListenForDiscoveryMessages()
+        {
+            var listener = new UdpClient(9051);
+            IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any, 0);
+
+            while (true)
+            {
+                byte[] data = listener.Receive(ref remoteEP);
+                string message = Encoding.UTF8.GetString(data);
+                if (message.StartsWith("DISCOVERY|"))
+                {
+                    string serverIP = message.Substring("DISCOVERY|".Length);
+                    // Now you can use this serverIP to connect to the server
+                    this.serverIP = serverIP;
+                    Client();
+                    break;
+                }
+            }
+        }
+        string GetLocalIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+            return null; // If no IPv4 address found
+        }
+
+        
+        
     }
 }
